@@ -59,9 +59,9 @@ export default function App() {
             {gameState.correctCount === TOTAL_QUESTIONS && (
               <p>
                 ランキング: {
-                  rankings.findIndex(r => r.time > (gameState.endTime! - gameState.startTime)) < 0 
+                  rankings.findIndex(r => r.time > (gameState.endTime! - (gameState.startTime ?? 0))) < 0 
                     ? (rankings.length === 1 ? rankings.length : rankings.length + 1)
-                    : rankings.findIndex(r => r.time > (gameState.endTime! - gameState.startTime))
+                    : rankings.findIndex(r => r.time > (gameState.endTime! - (gameState.startTime ?? 0)))
                 }位
               </p>
             )}
