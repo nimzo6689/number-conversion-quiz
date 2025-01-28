@@ -23,7 +23,7 @@ export default function App() {
   if (!gameState.startTime) {
     return (
       <div className={styles.container}>
-        <h1 className={styles.title}>数値変換クイズ</h1>
+        <h1 className={styles.title}>基数変換クイズ</h1>
         <p>2進数と16進数を10進数に変換する問題が各5問、ランダムな順序で出題されます。</p>
         <button className={styles.button} onClick={startGame}>
           開始

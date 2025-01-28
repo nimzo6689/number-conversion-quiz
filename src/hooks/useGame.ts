@@ -12,7 +12,7 @@ function generateQuestions(): Question[] {
   for (let i = 0; i < 5; i++) {
     const num = Math.floor(Math.random() * 256);
     questions.push({
-      value: num.toString(2),
+      value: num.toString(2).padStart(8, '0').replace(/(.{4})/g, '$1 ').trim(),
       type: 'binary',
       answer: num,
     });
@@ -22,7 +22,7 @@ function generateQuestions(): Question[] {
   for (let i = 0; i < 5; i++) {
     const num = Math.floor(Math.random() * 256);
     questions.push({
-      value: num.toString(16),
+      value: num.toString(16).toUpperCase().padStart(2, '0'),
       type: 'hexadecimal',
       answer: num,
     });
@@ -56,6 +56,7 @@ export function useGame() {
       endTime: null,
       isComplete: false,
       answers: new Array(TOTAL_QUESTIONS).fill(null),
+      correctCount: 0,
     });
   }, []);
 

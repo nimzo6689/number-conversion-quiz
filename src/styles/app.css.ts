@@ -6,6 +6,10 @@ export const container = style({
   margin: '0 auto',
   padding: '2rem',
   fontFamily: 'system-ui, sans-serif',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: '100%',
 });
 
 export const title = style({
@@ -45,8 +49,9 @@ export const rankingContainer = style({
 });
 
 export const rankingItem = style({
-  display: 'flex',
-  justifyContent: 'space-between',
+  display: 'grid',
+  gridTemplateColumns: 'auto 1fr 1fr',
+  gap: '1rem',
   padding: '0.5rem',
   borderBottom: '1px solid #ddd',
 });
