@@ -93,7 +93,7 @@ export function useGame() {
   }, []);
 
   useEffect(() => {
-    if (gameState.isComplete && gameState.startTime && gameState.endTime) {
+    if (gameState.isComplete && gameState.startTime && gameState.endTime && gameState.correctCount === TOTAL_QUESTIONS) {
       const timeSpent = gameState.endTime - gameState.startTime;
       const newResult: QuizResult = {
         time: timeSpent,
@@ -107,7 +107,7 @@ export function useGame() {
       setRankings(updatedRankings);
       localStorage.setItem(RANKINGS_KEY, JSON.stringify(updatedRankings));
     }
-  }, [gameState.isComplete, gameState.startTime, gameState.endTime, rankings]);
+  }, [gameState.isComplete, gameState.startTime, gameState.endTime, gameState.correctCount, rankings]);
 
   return {
     gameState,
