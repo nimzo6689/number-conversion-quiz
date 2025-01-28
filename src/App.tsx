@@ -1,6 +1,6 @@
 // src/App.tsx
 import { useState } from 'react';
-import { useGame } from './hooks/useGame';
+import { useGame, TOTAL_QUESTIONS } from './hooks/useGame';
 import * as styles from './styles/app.css';
 
 export default function App() {
@@ -23,8 +23,8 @@ export default function App() {
   if (!gameState.startTime) {
     return (
       <div className={styles.container}>
-        <h1 className={styles.title}>基数変換クイズ</h1>
-        <p>2進数と16進数を10進数に変換する問題が各5問、ランダムな順序で出題されます。</p>
+        <h1 className={styles.title}>数値変換クイズ</h1>
+        <p>2進数と16進数を10進数に変換する問題が各2問、ランダムな順序で出題されます。</p>
         <button className={styles.button} onClick={startGame}>
           開始
         </button>
@@ -55,15 +55,17 @@ export default function App() {
           <h2>クイズ完了！</h2>
           <div className={styles.resultSummary}>
             <p>タイム: {formatTime(gameState.endTime! - gameState.startTime)}</p>
-            <p>正答率: {(gameState.correctCount / 10 * 100).toFixed(1)}% ({gameState.correctCount}/10問正解)</p>
-            {gameState.correctCount === 10 && (
+            <p>正答率: {(gameState.correctCount / TOTAL_QUESTIONS * 100).toFixed(1)}% ({gameState.correctCount}/{TOTAL_QUESTIONS}問正解)</p>
+            {gameState.correctCount === TOTAL_QUESTIONS && (
               <p>
                 ランキング: {
-                  rankings.findIndex(r => r.time > (gameState.endTime! - gameState.startTime)) + 1 || rankings.length + 1
+                  rankings.findIndex(r => r.time > (gameState.endTime! - gameState.startTime)) < 0 
+                    ? (rankings.length === 1 ? rankings.length : rankings.length + 1)
+                    : rankings.findIndex(r => r.time > (gameState.endTime! - gameState.startTime))
                 }位
               </p>
             )}
-            {gameState.correctCount < 10 && (
+            {gameState.correctCount < TOTAL_QUESTIONS && (
               <p className={styles.noteText}>※ランキングは全問正解時のみ記録されます</p>
             )}
           </div>
@@ -74,7 +76,7 @@ export default function App() {
       ) : (
         <div className={styles.questionContainer}>
           <p>
-            問題 {gameState.currentQuestion + 1} / 10:
+            問題 {gameState.currentQuestion + 1} / {TOTAL_QUESTIONS}:&nbsp;
             {questionType}の「{currentQuestion.value}」を10進数に変換してください
           </p>
           <form onSubmit={handleSubmit}>
