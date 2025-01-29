@@ -1,4 +1,4 @@
-export type QuestionType = 'binary' | 'hexadecimal';
+export type QuestionType = "binary" | "hexadecimal";
 
 export interface Question {
   value: string;
