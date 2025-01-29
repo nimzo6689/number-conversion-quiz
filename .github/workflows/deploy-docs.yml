@@ -35,12 +35,8 @@ jobs:
           # Create and switch to a new docs branch
           git checkout --orphan docs
           
-          # Remove everything except dist directory
-          find . -maxdepth 1 ! -name 'dist' ! -name '.git' -exec rm -rf {} +
-          
-          # Move contents of dist to root
-          mv dist/* .
-          rm -rf dist
+          # Rename dist to docs
+          mv dist docs
           
           # Add all changes
           git add -A
