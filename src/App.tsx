@@ -24,7 +24,7 @@ export default function App() {
     return (
       <div className={styles.container}>
         <h1 className={styles.title}>基数変換クイズ</h1>
-        <p>2進数と16進数を10進数に変換する問題が各2問、ランダムな順序で出題されます。</p>
+        <p>2進数と16進数を10進数に変換する問題が{TOTAL_QUESTIONS / 2}問ずつ、ランダムで出題されます。</p>
         <button className={styles.button} onClick={startGame}>
           開始
         </button>
@@ -42,6 +42,7 @@ export default function App() {
         <div className={styles.notesContainer}>
           <p className={styles.noteText}>※ クイズを中断したい場合や、終了後この画面に戻りたい場合はWebページを更新してね。</p>
           <p className={styles.noteText}>※ ランキングをリセットさせたい場合は、LocalStorageに入っているから自分で削除してね。</p>
+          <p className={styles.noteText}>※ ソースコードは<a href="https://github.com/nimzo6689/number-conversion-quiz">こちら</a>です。</p>
         </div>
       </div>
     );
@@ -52,7 +53,7 @@ export default function App() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>数値変換クイズ</h1>
+      <h1 className={styles.title}>基数変換クイズ</h1>
       
       {gameState.isComplete ? (
         <div className={styles.questionContainer}>

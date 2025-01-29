@@ -2,7 +2,7 @@
 import { useState, useCallback, useRef } from 'react';
 import type { GameState, Question, QuizResult } from '../types';
 
-export const TOTAL_QUESTIONS = 4;
+export const TOTAL_QUESTIONS = 10;
 const RANKINGS_KEY = 'number-quiz-rankings';
 
 function generateQuestions(): Question[] {
