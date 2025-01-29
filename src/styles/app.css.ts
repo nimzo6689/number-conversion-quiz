@@ -71,3 +71,26 @@ export const noteText = style({
   marginTop: '1rem',
   fontStyle: 'italic',
 });
+
+export const wrongAnswers = style({
+  marginTop: '2rem',
+  padding: '1rem',
+  backgroundColor: '#fff',
+  borderRadius: '8px',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+});
+
+export const wrongAnswerItem = style({
+  padding: '1rem',
+  marginBottom: '1rem',
+  borderBottom: '1px solid #eee',
+  ':last-child': {
+    marginBottom: 0,
+    borderBottom: 'none',
+  },
+});
+
+export const notesContainer = style({
+  marginTop: '3rem',
+  padding: '1rem',
+});

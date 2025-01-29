@@ -23,7 +23,7 @@ export default function App() {
   if (!gameState.startTime) {
     return (
       <div className={styles.container}>
-        <h1 className={styles.title}>数値変換クイズ</h1>
+        <h1 className={styles.title}>基数変換クイズ</h1>
         <p>2進数と16進数を10進数に変換する問題が各2問、ランダムな順序で出題されます。</p>
         <button className={styles.button} onClick={startGame}>
           開始
@@ -38,6 +38,10 @@ export default function App() {
               <span>{new Date(result.date).toLocaleDateString()}</span>
             </div>
           ))}
+        </div>
+        <div className={styles.notesContainer}>
+          <p className={styles.noteText}>※ クイズを中断したい場合や、終了後この画面に戻りたい場合はWebページを更新してね。</p>
+          <p className={styles.noteText}>※ ランキングをリセットさせたい場合は、LocalStorageに入っているから自分で削除してね。</p>
         </div>
       </div>
     );
@@ -66,7 +70,26 @@ export default function App() {
               </p>
             )}
             {gameState.correctCount < TOTAL_QUESTIONS && (
-              <p className={styles.noteText}>※ランキングは全問正解時のみ記録されます</p>
+              <>
+                <p className={styles.noteText}>※ランキングは全問正解時のみ記録されます</p>
+                <div className={styles.wrongAnswers}>
+                  <h3>不正解の問題</h3>
+                  {gameState.questions.map((question, index) => {
+                    const userAnswer = gameState.answers[index];
+                    if (userAnswer !== question.answer) {
+                      const qType = question.type === 'binary' ? '2進数' : '16進数';
+                      return (
+                        <div key={index} className={styles.wrongAnswerItem}>
+                          <p>問題{index + 1}: {qType}の「{question.value}」</p>
+                          <p>あなたの回答: {userAnswer}</p>
+                          <p>正解: {question.answer}</p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              </>
             )}
           </div>
           <button className={styles.button} onClick={startGame}>
