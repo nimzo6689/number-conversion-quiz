@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from "react";
 import type { GameState, Question, QuizResult } from "../types";
 
 export const TOTAL_QUESTIONS = 10;
+export const TOTAL_RANKINGS = 5;
 const RANKINGS_KEY = "number-quiz-rankings";
 
 function generateQuestions(): Question[] {
@@ -92,7 +93,7 @@ export function useGame() {
             const updatedRankings = [...rankings]
               .concat(newResult)
               .sort((a, b) => a.time - b.time)
-              .slice(0, 5);
+              .slice(0, TOTAL_RANKINGS);
 
             setRankings(updatedRankings);
             localStorage.setItem(RANKINGS_KEY, JSON.stringify(updatedRankings));

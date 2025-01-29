@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGame, TOTAL_QUESTIONS } from "./hooks/useGame";
+import { useGame, TOTAL_QUESTIONS, TOTAL_RANKINGS } from "./hooks/useGame";
 import * as styles from "./styles/app.css";
 
 export default function App() {
@@ -24,7 +24,7 @@ export default function App() {
       <div className={styles.container}>
         <h1 className={styles.title}>基数変換クイズ</h1>
         <p>
-          2進数と16進数を10進数に変換する問題が{TOTAL_QUESTIONS / 2}
+          2 進数と 16 進数を 10 進数に変換する問題が {TOTAL_QUESTIONS / 2}{" "}
           問ずつ、ランダムで出題されます。
         </p>
         <button className={styles.button} onClick={startGame}>
@@ -33,6 +33,7 @@ export default function App() {
 
         <div className={styles.rankingContainer}>
           <h2>ランキング</h2>
+          {rankings.length === 0 && <p>ランキングはまだありません</p>}
           {rankings.map((result, index) => (
             <div key={result.date} className={styles.rankingItem}>
               <span>{index + 1}位</span>
@@ -43,12 +44,12 @@ export default function App() {
         </div>
         <div className={styles.notesContainer}>
           <p className={styles.noteText}>
-            ※
-            クイズを中断したい場合や、終了後この画面に戻りたい場合はWebページを更新してね。
+            ※ クイズを中断したい場合や、終了後この画面に戻りたい場合は Web
+            ページを更新してね。
           </p>
           <p className={styles.noteText}>
-            ※
-            ランキングをリセットさせたい場合は、LocalStorageに入っているから自分で削除してね。
+            ※ ランキングをリセットさせたい場合は、 LocalStorage
+            に入っているから自分で削除してね。
           </p>
           <p className={styles.noteText}>
             ※ ソースコードは
@@ -63,7 +64,20 @@ export default function App() {
   }
 
   const currentQuestion = gameState.questions[gameState.currentQuestion];
-  const questionType = currentQuestion.type === "binary" ? "2進数" : "16進数";
+  const questionType = currentQuestion.type === "binary" ? "2 進数" : "16 進数";
+
+  let currentRanking = 1;
+  if (gameState.correctCount === TOTAL_QUESTIONS) {
+    // 現在のランキングも含めて上位 ５ 件のランキングの中で何位になるかを計算
+    currentRanking =
+      rankings.findIndex(
+        (r) => r.time >= gameState.endTime! - (gameState.startTime ?? 0),
+      ) + 1;
+    // 0 の場合は記録されているどのランキングよりも遅いため、既に 5 件記録されている場合は圏外とする
+    if (currentRanking === 0 && rankings.length >= TOTAL_RANKINGS) {
+      currentRanking = rankings.length + 1;
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -79,24 +93,14 @@ export default function App() {
             <p>
               正答率:{" "}
               {((gameState.correctCount / TOTAL_QUESTIONS) * 100).toFixed(1)}% (
-              {gameState.correctCount}/{TOTAL_QUESTIONS}問正解)
+              {gameState.correctCount}/{TOTAL_QUESTIONS} 問正解)
             </p>
             {gameState.correctCount === TOTAL_QUESTIONS && (
               <p>
                 ランキング:{" "}
-                {rankings.findIndex(
-                  (r) =>
-                    r.time > gameState.endTime! - (gameState.startTime ?? 0),
-                ) < 0
-                  ? rankings.length === 1
-                    ? rankings.length
-                    : rankings.length + 1
-                  : rankings.findIndex(
-                      (r) =>
-                        r.time >
-                        gameState.endTime! - (gameState.startTime ?? 0),
-                    )}
-                位
+                {currentRanking > TOTAL_RANKINGS
+                  ? "圏外"
+                  : `${currentRanking} 位`}
               </p>
             )}
             {gameState.correctCount < TOTAL_QUESTIONS && (
@@ -110,7 +114,7 @@ export default function App() {
                     const userAnswer = gameState.answers[index];
                     if (userAnswer !== question.answer) {
                       const qType =
-                        question.type === "binary" ? "2進数" : "16進数";
+                        question.type === "binary" ? "2 進数" : "16 進数";
                       return (
                         <div key={index} className={styles.wrongAnswerItem}>
                           <p>
@@ -136,7 +140,7 @@ export default function App() {
           <p>
             問題 {gameState.currentQuestion + 1} / {TOTAL_QUESTIONS}:&nbsp;
             {questionType}の「{currentQuestion.value}
-            」を10進数に変換してください
+            」を 10 進数に変換してください
           </p>
           <form onSubmit={handleSubmit}>
             <input

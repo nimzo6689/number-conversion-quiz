@@ -45,6 +45,7 @@ export const button = style({
 
 export const rankingContainer = style({
   marginTop: "2rem",
+  textAlign: "center",
 });
 
 export const rankingItem = style({
