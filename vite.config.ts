@@ -4,6 +4,7 @@ import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 
 export default defineConfig({
   plugins: [react(), vanillaExtractPlugin()],
+  base: '/number-conversion-quiz/',
   server: {
     open: true,
   },
